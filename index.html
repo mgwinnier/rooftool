@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <body>
+      <script>
+        function handleClientLoad() {
+          gapi.load('client:auth2', function() {
+            gapi.client.init({
+              apiKey: 'AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770',
+              clientId: '617468844660-dm5kuh4p5repfvrv6i6gadus6r8lcne2.apps.googleusercontent.com',
+              scope: 'https://www.googleapis.com/auth/spreadsheets',
+              discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4']
+            }).then(function() {
+              console.log('gapi library has been loaded');
+            });
+          });
+        }
+      </script>
+      <script async defer src="https://apis.google.com/js/api.js" onload="handleClientLoad()"></script>      
+    <title>Google Maps and Google Sheets Example</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</script>
+  </head>
+  <body>
+    <div id="map" style="height: 100vh; width: 100%;"></div>
+    <div id="legend" style="position: absolute; bottom: 10px; left: 10px; background-color: white; padding: 10px;">
+      <h3>Legend</h3>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
+        </div>
+        <div>Roof Type 1</div>
+      </div>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">
+        </div>
+        <div>Roof Type 2</div>
+      </div>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">
+        </div>
+        <div>Roof Type 3</div>
+      </div>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png">
+        </div>
+        <div>Roof Type 4</div>
+      </div>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png">
+        </div>
+        <div>Roof Type 5</div>
+      </div>
+    </div>
+    <script>
+      // Initialize the map
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: {lat: 38.045377, lng: -84.495359},
+          zoom: 10
+        });
+      }
+      initMap();
+
+      // Load the data from the Google Sheet
+      var markers = [];
+      var colors = {
+        roof1: "red",
+        roof2: "blue",
+        roof3: "green",
+        roof4: "yellow",
+        roof5: "purple"
+      };
+      $.get("https://sheets.googleapis.com/v4/spreadsheets/1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8/values/A1:ZZ?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770", function(data) {
+        var rows = data.values;
+        for (var i = 0; i < rows.length; i++) {
+          var address = rows[i][6];
+          var roof = rows[i][39];
+          var phone = rows[i][13];
+          var lat = rows[i][37];
+          var lng = rows[i][38];
+          var latLng = new google.maps.LatLng(lat, lng);
+          var marker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+            title: address,
+            row: i + 1
+        });
+          markers.push(marker);
+
+          // Add an info window to the marker
+          var infoWindow = new google.maps.InfoWindow({
+            content: 'Address: ' + address + '<br>Phone: ' + phone + '<br><br><select id="roof-select-' + i + '"><option value="default">Select a Roof Type</option><option value="roof1">Roof Type 1</option><option value="roof2">Roof Type 2</option><option value="roof3">Roof Type 3</option><option value="roof4">Roof Type 4</option><option value="roof5">Roof Type 5</option></select><br><br><select id="contact-select-' + i + '"><option value="default">Select a Contact Status</option><option value="called">Called</option><option value="emailed">Emailed</option><option value="mailed">Mailed</option><option value="none">None</option><option value="delete">Delete Lead</option></select><br><br><button id="update-button-' + i + '">Update</button>'
+          });
+
+          marker.addListener('click', (function(marker, i, infoWindow) {
+          return function() {
+            infoWindow.open(map, marker);
+          };
+        })(marker, i, infoWindow));
+
+          // Add an event listener to the update button in the info window
+          google.maps.event.addListener(infoWindow, 'domready', (function(marker, i) {
+            return function() {
+              $("#update-button-" + i).click(function() {
+                var selectedRoof = $("#roof-select-" + i).val();
+                var selectedContact = $("#contact-select-" + i).val();
+                if (selectedRoof !== "default") {
+                  marker.roof = selectedRoof;
+                  marker.setMap(null);
+                  marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + colors[selectedRoof] + "-dot.png");
+                  marker.setMap(map);
+                  infoWindow.close();
+                  $.ajax({
+                    url: "https://sheets.googleapis.com/v4/spreadsheets/1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8/values/AN" + (marker.row + 1) + ":A0" + (marker.row + 1) + "?valueInputOption=RAW&key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770",
+                    type: "PUT",
+                    data: JSON.stringify({
+                      values: [
+                        ["value_A", "value_B"]
+                      ]
+                    }),
+                    contentType: "application/json",
+                    success: function(data) {
+                      console.log(data);
+                    }
+                  });
+                }
+                if (selectedContact === "delete") {
+                  marker.setMap(null);
+                  infoWindow.close();
+                } else if (selectedContact !== "default") {
+                  marker.contact = selectedContact;
+                }
+                console.log(marker.row)
+                
+              });
+            };
+          })(marker, i)); 
+          }
+        }
+      );
+  </script>
+</body>
+</html>
