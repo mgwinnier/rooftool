@@ -150,7 +150,7 @@
 
     // Create a function to make a copy of a sheet
     function createSheetCopy() {
-    // Replace "spreadsheetId" with the ID of the desired spreadsheet
+      // Replace "spreadsheetId" with the ID of the desired spreadsheet
       var spreadsheetId = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
 
       // Replace "sheetName" with the name of the sheet you want to make a copy of
@@ -169,6 +169,7 @@
         }
       });
     }
+    document.getElementById("update-button").addEventListener("click", createSheetCopy);
   </script>
   <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
   <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
