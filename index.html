@@ -108,13 +108,13 @@
         document.getElementById('signout_button').style.visibility = 'hidden';
       }
     }
-    function makeApiCall(selectedRoof) {
+    function makeApiCall(selectedRoof,cellrow, selectedContact) {
       var params = {
         // The ID of the spreadsheet to update.
         spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
 
         // The A1 notation of the values to update.
-        range: 'Sheet1',  // TODO: Update placeholder value.
+        range: "Sheet1!AN" + (cellrow + 1) + ":A0" + (cellrow + 1),  // TODO: Update placeholder value.
 
         // How the input data should be interpreted.
         valueInputOption: 'RAW',  // TODO: Update placeholder value.
@@ -125,7 +125,7 @@
         // will be replaced.
         "values" : [
           [
-          selectedRoof
+          selectedRoof, selectedContact
           ]
         ]
       };
@@ -250,8 +250,9 @@
                 } else if (selectedContact !== "default") {
                   marker.contact = selectedContact;
                 }
+                var cellrow = marker.row
                 console.log(marker.row);
-                makeApiCall(selectedRoof)
+                makeApiCall(selectedRoof,cellrow,selectedContact)
               });
             };
           })(marker, i)); 
