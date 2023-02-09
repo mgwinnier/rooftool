@@ -172,8 +172,13 @@
             ]
           }
       // Make a request to the Google Sheets API to create a copy of the specified sheet
-      gapi.client.spreadsheets.batchUpdate(SpreadsheetId=SPREADSHEET_ID,
-                           body=body)
+      var request= gapi.client.spreadsheets.batchUpdate(SpreadsheetId=SPREADSHEET_ID,body=body);
+      request.then(function(response) {
+        // TODO: Change code below to process the `response` object:
+        console.log(response.result);
+      }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+      });
     }
   </script>
   <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
