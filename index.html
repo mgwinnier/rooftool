@@ -142,20 +142,16 @@
     }
 
     // Get the current date
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    var yyyy = today.getFullYear();
-    today = mm + '-' + dd + '-' + yyyy;
+
 
     // Create a function to make a copy of a sheet
     function createSheetCopy() {
       // Replace "sheetName" with the name of the sheet you want to make a copy of
       // Replace "spreadsheetId" with the ID of the spreadsheet you want to update
-      var spreadsheetId = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
+      var SPREADSHEETID = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
 
       // Replace "sheetName" with the name of the sheet you want to make a copy of
-      var sheetName = "0";
+      var SHEET_ID = "0";
 
       // Create a new sheet with the current date and the name "processed data"
           //"sourceSheetId": integer,
@@ -164,21 +160,12 @@
           //"newSheetName": string
       var newSheetName = new Date().toDateString() + " - Processed Data";
 
-      var requestBody = { 
-        requests: [
-          {
-            DuplicateSheet: {
-              sourceSheetId: sheetName,
-              insertSheetIndex: "1",
-              newSheetName: newSheetName
-            }
-          }
-        ]   
-      };
-
-       var request = gapi.client.sheets.spreadsheets.batchUpdate({
-        spreadsheetId: spreadsheetId,
-        resource: requestBody
+       var request = gapi.client.sheets.spreadsheets.copyTo({
+        spreadsheetId: SPREADSHEETID,
+        sheetId: SHEET_ID,
+        body: {
+          destinationSpreadshetID: SPREADSHEETID
+        }
       }).then(function(response) {
         console.log(response);
       }, function(reason) {
