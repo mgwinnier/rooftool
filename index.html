@@ -208,8 +208,21 @@
           markers.push(marker);
 
           // Add an info window to the marker
+          var content = 'Address: ' + address + '<br>Phone: ' + phone + '<br><br>';
+          if (roof) {
+            content += 'Roof Type: ' + roof + '<br><br>';
+          } else {
+            content += '<select id="roof-select-' + i + '"><option value="default">Select a Roof Type</option><option value="flat">Flat Roof</option><option value="shingle">Shingle Roof</option><option value="Metal">Metal Roof</option></select><br><br>';
+          }
+          if (contact) {
+            content += 'Contact Status: ' + contact + '<br><br>';
+          } else {
+            content += '<select id="contact-select-' + i + '"><option value="default">Select a Contact Status</option><option value="called">Called</option><option value="emailed">Emailed</option><option value="mailed">Mailed</option><option value="none">None</option><option value="delete">Delete Lead</option></select><br><br>';
+          }
+          content += '<button id="update-button-' + i + '">Update</button>';
+
           var infoWindow = new google.maps.InfoWindow({
-            content: 'Address: ' + address + '<br>Phone: ' + phone + '<br><br><select id="roof-select-' + i + '"><option value="default">Select a Roof Type</option><option value="flat">Flat Roof</option><option value="shingle">Shingle Roof</option><option value="metal">Metal Roof</option></select><br><br><select id="contact-select-' + i + '"><option value="default">Select a Contact Status</option><option value="called">Called</option><option value="emailed">Emailed</option><option value="mailed">Mailed</option><option value="none">None</option><option value="delete">Delete Lead</option></select><br><br><button id="update-button-' + i + '">Update</button>'
+            content: content
           });
 
           marker.addListener('click', (function(marker, i, infoWindow) {
