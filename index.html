@@ -160,7 +160,7 @@
       var newSheetName = today + " - Processed Data";
 
       // Make a request to the Google Sheets API to create a copy of the specified sheet
-      gapi.client.sheets.spreadsheets.sheets.copyTo({
+      gapi.client.sheets.spreadsheets.DuplicateSheetRequest({
         spreadsheetId: spreadsheetId,
         sheetId: sheetName,
         requestBody: {
