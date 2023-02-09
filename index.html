@@ -210,21 +210,26 @@
 
           // Add an info window to the marker
           var content = 'Address: ' + address + '<br>Phone: ' + phone + '<br><br>';
-          if (roof) {
-            content += 'Roof Type: ' + roof + '<br><br>';
-          } else {
-            content += '<select id="roof-select-' + i + '"><option value="default">Select a Roof Type</option><option value="flat">Flat Roof</option><option value="shingle">Shingle Roof</option><option value="Metal">Metal Roof</option></select><br><br>';
-          }
-          if (contact) {
-            content += 'Contact Status: ' + contact + '<br><br>';
-          } else {
-            content += '<select id="contact-select-' + i + '"><option value="default">Select a Contact Status</option><option value="called">Called</option><option value="emailed">Emailed</option><option value="mailed">Mailed</option><option value="none">None</option><option value="delete">Delete Lead</option></select><br><br>';
-          }
+          content += '<select id="roof-select-' + i + '">' +
+            '<option value="default">Select a Roof Type</option>' +
+            '<option value="flat"' + (roof === 'flat' ? ' selected' : '') + '>Flat Roof</option>' +
+            '<option value="shingle"' + (roof === 'shingle' ? ' selected' : '') + '>Shingle Roof</option>' +
+            '<option value="Metal"' + (roof === 'Metal' ? ' selected' : '') + '>Metal Roof</option>' +
+            '</select><br><br>';
+          content += '<select id="contact-select-' + i + '">' +
+            '<option value="default">Select a Contact Status</option>' +
+            '<option value="called"' + (contact === 'called' ? ' selected' : '') + '>Called</option>' +
+            '<option value="emailed"' + (contact === 'emailed' ? ' selected' : '') + '>Emailed</option>' +
+            '<option value="mailed"' + (contact === 'mailed' ? ' selected' : '') + '>Mailed</option>' +
+            '<option value="none"' + (contact === 'none' ? ' selected' : '') + '>None</option>' +
+            '<option value="delete"' + (contact === 'delete' ? ' selected' : '') + '>Delete Lead</option>' +
+            '</select><br><br>';
           content += '<button id="update-button-' + i + '">Update</button>';
 
           var infoWindow = new google.maps.InfoWindow({
             content: content
           });
+
 
           marker.addListener('click', (function(marker, i, infoWindow) {
           return function() {
