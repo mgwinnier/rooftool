@@ -108,19 +108,36 @@
         document.getElementById('signout_button').style.visibility = 'hidden';
       }
     }
-    async function UpdateSheets() {
-      let response;
-      try {
-        response = await gapi.client.sheets.spreadsheets.values.update({
-         spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',
-          range: 'Sheet1!A0' + (marker.row + 1) + ":A0" + (marker.row + 1),
-          values: [[selectedRoof]]
-        });
-      } catch (error) {
-        console.error('It did not work');
-    return;
-  }
-}
+    function makeApiCall() {
+      var params = {
+        // The ID of the spreadsheet to update.
+        spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
+
+        // The A1 notation of the values to update.
+        range: 'Sheet1',  // TODO: Update placeholder value.
+
+        // How the input data should be interpreted.
+        valueInputOption: 'RAW',  // TODO: Update placeholder value.
+      };
+
+      var valueRangeBody = {
+        // TODO: Add desired properties to the request body. All existing properties
+        // will be replaced.
+        "values" : [
+          [
+            "test"
+          ]
+        ]
+      };
+
+      var request = gapi.client.sheets.spreadsheets.values.update(params, valueRangeBody);
+      request.then(function(response) {
+        // TODO: Change code below to process the `response` object:
+        console.log(response.result);
+      }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+      });
+    }
   </script>
   <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
   <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
@@ -214,6 +231,10 @@
         })(marker, i, infoWindow));
 
           // Add an event listener to the update button in the info window
+          google.maps.event.addListener(infoWindow, 'closeclick', function() {
+            makeApiCall();
+          });
+
           google.maps.event.addListener(infoWindow, 'domready', (function(marker, i) {
             return function() {
               $("#update-button-" + i).click(function() {
@@ -225,7 +246,6 @@
                   marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + colors[selectedRoof] + "-dot.png");
                   marker.setMap(map);
                   infoWindow.close();
-                  UpdateSheets()
                 }
                 if (selectedContact === "delete") {
                   marker.setMap(null);
