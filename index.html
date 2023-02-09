@@ -230,10 +230,7 @@
           };
         })(marker, i, infoWindow));
 
-          // Add an event listener to the update button in the info window
-          google.maps.event.addListener(infoWindow, 'closeclick', function() {
-            makeApiCall();
-          });
+          // Add an event listener to the update button in the info wind
 
           google.maps.event.addListener(infoWindow, 'domready', (function(marker, i) {
             return function() {
@@ -254,6 +251,7 @@
                   marker.contact = selectedContact;
                 }
                 console.log(marker.row);
+                makeApiCall()
               });
             };
           })(marker, i)); 
