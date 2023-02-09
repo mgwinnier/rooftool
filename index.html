@@ -4,6 +4,7 @@
   <!--Add buttons to initiate auth sequence and sign out-->
   <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
   <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+  <button id="update-button" style="display:none" onclick="createSheetCopy()">Create A Copied Sheet</button>
 
   <pre id="content" style="white-space: pre-wrap;"></pre>
 
@@ -83,6 +84,7 @@
         }
         document.getElementById('signout_button').style.visibility = 'visible';
         document.getElementById('authorize_button').innerText = 'Refresh';
+        document.getElementById('update-button').style.display = 'inline-block';
       };
 
       if (gapi.client.getToken() === null) {
@@ -114,7 +116,7 @@
         spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
 
         // The A1 notation of the values to update.
-        range: "Sheet1!Q" + (cellrow) + ":R" + (cellrow),  // TODO: Update placeholder value.
+        range: "MapView!Q" + (cellrow) + ":R" + (cellrow),  // TODO: Update placeholder value.
 
         // How the input data should be interpreted.
         valueInputOption: 'RAW',  // TODO: Update placeholder value.
@@ -138,6 +140,40 @@
         console.error('error: ' + reason.result.error.message);
       });
     }
+
+    // Get the current date
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    var yyyy = today.getFullYear();
+    today = mm + '-' + dd + '-' + yyyy;
+
+    // Create a function to make a copy of a sheet
+    function createSheetCopy() {
+    // Replace "spreadsheetId" with the ID of the desired spreadsheet
+      var spreadsheetId = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
+
+      // Replace "sheetName" with the name of the sheet you want to make a copy of
+      var sheetName = "MapView";
+
+      // Create a new sheet with the current date and the name "processed data"
+      var newSheetName = today + " - Processed Data";
+
+      // Make a request to the Google Sheets API to create a copy of the specified sheet
+      gapi.client.sheets.spreadsheets.sheets.copyTo({
+        spreadsheetId: spreadsheetId,
+        sheetId: sheetName,
+        requestBody: {
+          destinationSpreadsheetId: spreadsheetId,
+          newSheetName: newSheetName
+        }
+      });
+    }
+
+// Attach the "createSheetCopy" function to a button on the screen
+document.getElementById("copySheetButton").addEventListener("click", createSheetCopy);
+
+
   </script>
   <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
   <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
