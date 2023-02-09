@@ -150,32 +150,37 @@
 
     // Create a function to make a copy of a sheet
     function createSheetCopy() {
-      // Replace "spreadsheetId" with the ID of the desired spreadsheet
-      var SPREADSHEET_ID = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
+      // Replace "sheetName" with the name of the sheet you want to make a copy of
+      // Replace "spreadsheetId" with the ID of the spreadsheet you want to update
+      var spreadsheetId = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
 
       // Replace "sheetName" with the name of the sheet you want to make a copy of
       var sheetName = "0";
 
       // Create a new sheet with the current date and the name "processed data"
-      var newSheetName = today + " - Processed Data";
-      
+          //"sourceSheetId": integer,
+          //"insertSheetIndex": integer,
+          //"newSheetId": integer,
+          //"newSheetName": string
+      var newSheetName = new Date().toDateString() + " - Processed Data";
 
-      var body = {
-          'requests': [
-              {
-                  'duplicateSheet': {
-                    'sourceSheetId': sheetName,
-                    'insertSheetIndex': 1,
-                    'newSheetName': newSheetName
-                  }
-              }
-            ]
+      var requestBody = { 
+        requests: [
+          {
+            DuplicateSheet: {
+              sourceSheetId: sheetName,
+              insertSheetIndex: "1",
+              newSheetName: newSheetName
+            }
           }
-      // Make a request to the Google Sheets API to create a copy of the specified sheet
-      var request= gapi.client.spreadsheets.batchUpdate(SpreadsheetId=SPREADSHEET_ID,body=body);
-      request.then(function(response) {
-        // TODO: Change code below to process the `response` object:
-        console.log(response.result);
+        ]   
+      };
+
+      gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: spreadsheetId,
+        resource: requestBody
+      }).then(function(response) {
+        console.log(response);
       }, function(reason) {
         console.error('error: ' + reason.result.error.message);
       });
