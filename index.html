@@ -160,7 +160,7 @@
           //"newSheetName": string
       var newSheetName = new Date().toDateString() + " - Processed Data";
 
-       var request = gapi.client.sheets.spreadsheets.copyTo({
+       var request = gapi.client.sheets.spreadsheets.sheets.copyTo({
         spreadsheetId: SPREADSHEETID,
         sheetId: SHEET_ID,
         body: {
