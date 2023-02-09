@@ -206,6 +206,11 @@
         if (colors[roof]) {
           marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + colors[roof] + "-dot.png");
         }
+
+        if(contact === "delete"){
+          marker.setMap(null);
+        }
+        
           markers.push(marker);
 
           // Add an info window to the marker
