@@ -176,7 +176,7 @@
         ]   
       };
 
-      gapi.client.sheets.spreadsheets.batchUpdate({
+       var request = gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: spreadsheetId,
         resource: requestBody
       }).then(function(response) {
