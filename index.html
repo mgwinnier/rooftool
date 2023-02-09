@@ -108,8 +108,7 @@
         document.getElementById('signout_button').style.visibility = 'hidden';
       }
     }
-    function makeApiCall() {
-      var selectedRoof = marker.roof;
+    function makeApiCall(selectedRoof) {
       var params = {
         // The ID of the spreadsheet to update.
         spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
@@ -252,7 +251,7 @@
                   marker.contact = selectedContact;
                 }
                 console.log(marker.row);
-                makeApiCall()
+                makeApiCall(selectedRoof)
               });
             };
           })(marker, i)); 
