@@ -201,6 +201,10 @@
             title: address,
             row: i + 1
         });
+        
+        if (colors[roof]) {
+          marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + colors[selectedRoof] + "-dot.png");
+        }
           markers.push(marker);
 
           // Add an info window to the marker
