@@ -114,7 +114,7 @@
         spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
 
         // The A1 notation of the values to update.
-        range: "Sheet1!AN" + (cellrow + 1) + ":A0" + (cellrow + 1),  // TODO: Update placeholder value.
+        updatedRange: "Sheet1!AN" + (cellrow) + ":A0" + (cellrow),  // TODO: Update placeholder value.
 
         // How the input data should be interpreted.
         valueInputOption: 'RAW',  // TODO: Update placeholder value.
@@ -183,7 +183,7 @@
       // Load the data from the Google Sheet
       var markers = [];
       var colors = {
-        flat: "yello",
+        flat: "yellow",
         shingle: "blue",
         metal: "green",
       };
