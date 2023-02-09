@@ -114,7 +114,7 @@
         spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
 
         // The A1 notation of the values to update.
-        range: "Sheet1!AN" + (cellrow) + ":AO" + (cellrow),  // TODO: Update placeholder value.
+        range: "Sheet1!Q" + (cellrow) + ":P" + (cellrow),  // TODO: Update placeholder value.
 
         // How the input data should be interpreted.
         valueInputOption: 'RAW',  // TODO: Update placeholder value.
@@ -189,12 +189,12 @@
       $.get("https://sheets.googleapis.com/v4/spreadsheets/1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8/values/A1:ZZ?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770", function(data) {
         var rows = data.values;
         for (var i = 0; i < rows.length; i++) {
-          var address = rows[i][6];
-          var roof = rows[i][39];
-          var contact =rows[i][40]
-          var phone = rows[i][13];
-          var lat = rows[i][37];
-          var lng = rows[i][38];
+          var address = rows[i][3];
+          var roof = rows[i][16];
+          var contact =rows[i][17]
+          var phone = rows[i][9];
+          var lat = rows[i][14];
+          var lng = rows[i][15];
           var latLng = new google.maps.LatLng(lat, lng);
           var marker = new google.maps.Marker({
             position: latLng,
@@ -210,7 +210,7 @@
         if(contact === "delete"){
           marker.setMap(null);
         }
-        
+
           markers.push(marker);
 
           // Add an info window to the marker
