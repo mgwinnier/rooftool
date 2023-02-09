@@ -153,35 +153,22 @@
       <h3>Legend</h3>
       <div style="display: flex;">
         <div style="margin-right: 10px;">
-          <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png">
+          <img src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png">
         </div>
-        <div>Roof Type 1</div>
+        <div>Flat Roof</div>
       </div>
       <div style="display: flex;">
         <div style="margin-right: 10px;">
           <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">
         </div>
-        <div>Roof Type 2</div>
+        <div>Shingle Roof</div>
       </div>
       <div style="display: flex;">
         <div style="margin-right: 10px;">
           <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">
         </div>
-        <div>Roof Type 3</div>
+        <div>Metal Roof</div>
       </div>
-      <div style="display: flex;">
-        <div style="margin-right: 10px;">
-          <img src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png">
-        </div>
-        <div>Roof Type 4</div>
-      </div>
-      <div style="display: flex;">
-        <div style="margin-right: 10px;">
-          <img src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png">
-        </div>
-        <div>Roof Type 5</div>
-      </div>
-    </div>
     <script>
       // Initialize the map
       var map;
@@ -196,11 +183,9 @@
       // Load the data from the Google Sheet
       var markers = [];
       var colors = {
-        roof1: "blue",
-        roof2: "blue",
-        roof3: "green",
-        roof4: "yellow",
-        roof5: "purple"
+        flat: "yello",
+        shingle: "blue",
+        metal: "green",
       };
       $.get("https://sheets.googleapis.com/v4/spreadsheets/1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8/values/A1:ZZ?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770", function(data) {
         var rows = data.values;
@@ -221,7 +206,7 @@
 
           // Add an info window to the marker
           var infoWindow = new google.maps.InfoWindow({
-            content: 'Address: ' + address + '<br>Phone: ' + phone + '<br><br><select id="roof-select-' + i + '"><option value="default">Select a Roof Type</option><option value="roof1">Roof Type 1</option><option value="roof2">Roof Type 2</option><option value="roof3">Roof Type 3</option><option value="roof4">Roof Type 4</option><option value="roof5">Roof Type 5</option></select><br><br><select id="contact-select-' + i + '"><option value="default">Select a Contact Status</option><option value="called">Called</option><option value="emailed">Emailed</option><option value="mailed">Mailed</option><option value="none">None</option><option value="delete">Delete Lead</option></select><br><br><button id="update-button-' + i + '">Update</button>'
+            content: 'Address: ' + address + '<br>Phone: ' + phone + '<br><br><select id="roof-select-' + i + '"><option value="default">Select a Roof Type</option><option value="flat">Flat Roof</option><option value="shingle">Shingle Roof</option><option value="metal">Metal Roof</option></select><br><br><select id="contact-select-' + i + '"><option value="default">Select a Contact Status</option><option value="called">Called</option><option value="emailed">Emailed</option><option value="mailed">Mailed</option><option value="none">None</option><option value="delete">Delete Lead</option></select><br><br><button id="update-button-' + i + '">Update</button>'
           });
 
           marker.addListener('click', (function(marker, i, infoWindow) {
