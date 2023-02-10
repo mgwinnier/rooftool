@@ -146,30 +146,38 @@
 
     // Create a function to make a copy of a sheet
     function createSheetCopy() {
-      // Replace "sheetName" with the name of the sheet you want to make a copy of
-      // Replace "spreadsheetId" with the ID of the spreadsheet you want to update
-      var SPREADSHEETID = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
-
-      // Replace "sheetName" with the name of the sheet you want to make a copy of
+      var SPREADSHEET_ID = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
       var SHEET_ID = "0";
-
-      // Create a new sheet with the current date and the name "processed data"
-          //"sourceSheetId": integer,
-          //"insertSheetIndex": integer,
-          //"newSheetId": integer,
-          //"newSheetName": string
       var newSheetName = new Date().toDateString() + " - Processed Data";
 
-       var request = gapi.client.sheets.spreadsheets.sheets.copyTo({
-        spreadsheetId: SPREADSHEETID,
+      gapi.client.sheets.spreadsheets.sheets.copyTo({
+        spreadsheetId: SPREADSHEET_ID,
         sheetId: SHEET_ID,
         body: {
-          destinationSpreadshetID: SPREADSHEETID
+          destinationSpreadsheetId: SPREADSHEET_ID
         }
       }).then(function(response) {
-        console.log(response);
-      }, function(reason) {
-        console.error('error: ' + reason.result.error.message);
+        var NEW_SHEET_ID = response.result.sheetId;
+        gapi.client.sheets.spreadsheets.batchUpdate({
+          spreadsheetId: SPREADSHEET_ID,
+          resource: {
+            requests: [
+              {
+                updateSheetProperties: {
+                  properties: {
+                    sheetId: NEW_SHEET_ID,
+                    title: newSheetName
+                  },
+                  fields: 'title'
+                }
+              }
+            ]
+          }
+        }).then(function(response) {
+          console.log(response);
+        }, function(reason) {
+          console.error('error: ' + reason.result.error.message);
+        });
       });
     }
   </script>
