@@ -141,9 +141,6 @@
       });
     }
 
-    // Get the current date
-
-
     // Create a function to make a copy of a sheet
     function createSheetCopy() {
       var SPREADSHEET_ID = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
@@ -153,9 +150,7 @@
       gapi.client.sheets.spreadsheets.sheets.copyTo({
         spreadsheetId: SPREADSHEET_ID,
         sheetId: SHEET_ID,
-        body: {
-          destinationSpreadsheetId: SPREADSHEET_ID
-        }
+        destinationSpreadsheetId: SPREADSHEET_ID
       }).then(function(response) {
         var NEW_SHEET_ID = response.result.sheetId;
         gapi.client.sheets.spreadsheets.batchUpdate({
