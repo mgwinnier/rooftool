@@ -220,9 +220,9 @@
       // Load the data from the Google Sheet
       var markers = [];
       var colors = {
-        flat: "yellow",
-        shingle: "blue",
-        metal: "green",
+        Flat: "yellow",
+        Shingle: "blue",
+        Metal: "green",
       };
       $.get("https://sheets.googleapis.com/v4/spreadsheets/1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8/values/A1:ZZ?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770", function(data) {
         var rows = data.values;
@@ -255,8 +255,8 @@
           var content = 'Address: ' + address + '<br>Phone: ' + phone + '<br><br>';
           content += '<select id="roof-select-' + i + '">' +
             '<option value="default">Select a Roof Type</option>' +
-            '<option value="flat"' + (roof === 'flat' ? ' selected' : '') + '>Flat Roof</option>' +
-            '<option value="shingle"' + (roof === 'shingle' ? ' selected' : '') + '>Shingle Roof</option>' +
+            '<option value="Flat"' + (roof === 'Flat' ? ' selected' : '') + '>Flat Roof</option>' +
+            '<option value="Shingle"' + (roof === 'Shingle' ? ' selected' : '') + '>Shingle Roof</option>' +
             '<option value="Metal"' + (roof === 'Metal' ? ' selected' : '') + '>Metal Roof</option>' +
             '</select><br><br>';
           content += '<select id="contact-select-' + i + '">' +
